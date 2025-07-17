@@ -1,1 +1,18 @@
-Bug bounty tools. Add Description or Table of Contents?
+Bug bounty tools
+
+Install the following packages in a Linux environmnent.
+ - sudo apt update
+ - sudo apt install
+  - amass 
+  - httpx
+  - ffuf
+  - wget
+  - jadx
+  - python3-pip dos2unix
+
+Use link scanning repo.
+ - git clone https://github.com/GerbenJavado/LinkFinder.git ~/tools/LinkFinder
+
+Install Python requirements for LinkFinder
+ - pip3 install -r ~/tools/LinkFinder/requirements.txt
+
