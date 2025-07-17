@@ -1,0 +1,13 @@
+requests
+beautifulsoup4
+html5lib
+jsbeautifier
+urllib3
+tldextract
+colorama
+lxml
+python-dotenv
+httpx
+dnspython
+click
+rich
