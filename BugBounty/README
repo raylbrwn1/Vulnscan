@@ -1,15 +1,15 @@
 Bug bounty tools
 setup environment in the following way.
-~/BugBounty/
+BugBounty/
+├── setup.sh
+├── requirements.txt
 ├── Scripts/
-│   ├── set_syfe_scope.py
-│   ├── syfe_recon.sh
-│   ├── syfe_full_recon.sh
 │   ├── syfe_autopwn.sh
-├── Recon/
-│   └── Syfe/  ← output from `syfe_full_recon.sh`
+│   ├── set_syfe_scope.py
 ├── tools/
 │   └── LinkFinder/
+├── Recon/
+└── README.md
 
 Place scripts in ~/BugBounty/Scripts/
 Create virtual environmnet and then activate it. The command prompt should look something like this: (bountyenv) yourname@host:~/BugBounty/tools$.
@@ -19,13 +19,13 @@ source ~/BugBounty/tools/bountyenv/bin/activate
 
 Use the setup.sh and requirements.txt files to install the packages needed for the bug scanner to run.
 chmod +x ~/BugBounty/setup.sh
-chmod +x ~/BugBounty/tools/LinkFinder/requirements.txt
+chmod +x ~/BugBounty/requirements.txt
 ./setup.sh
-pip install -r ~/BugBounty/tools/LinkFinder/requirements.txt
+pip install -r ~/BugBounty/requirements.txt
 
 Use link scanning repo.
- - git clone https://github.com/GerbenJavado/LinkFinder.git ~/tools/LinkFinder
+git clone https://github.com/GerbenJavado/LinkFinder.git ~/tools/LinkFinder
 
 Install Python requirements for LinkFinder
- - pip3 install -r ~/tools/LinkFinder/requirements.txt
+pip3 install -r ~/tools/LinkFinder/requirements.txt
 
