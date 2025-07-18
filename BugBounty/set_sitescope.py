@@ -1,4 +1,4 @@
-# set_syfe_scope.py
+# set_sitescope.py
 output_file = "scopeconfig.sh"
 
 # Prompt for primary domain
