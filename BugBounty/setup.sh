@@ -1,6 +1,11 @@
 # Directory Structure Setup & Installation Script
 #!/bin/bash
 
+# === Create virtual environment ===
+echo "[*] Setting up virtual environment."
+python3 -m ~/bugbounty/tools/.venv
+source ~/bugbounty/tools/.venv/bin/activate
+
 # === Create Directory Structure ===
 mkdir -p bugbounty/{scripts,tools,output,}
 
@@ -14,10 +19,6 @@ wget \
 jadx \
 python3-pip \
 dos2unix
-
-echo "[*] Setting up virtual environment."
-python3 -m ~/bugbounty/tools/.venv
-source ~/bugbounty/tools/.venv/bin/activate
 
 echo "[*] Downloading scripts."
 wget -P ~/bugbounty https://raw.githubusercontent.com/raylbrwn1/Vulnscan/refs/heads/main/BugBounty/requirements
