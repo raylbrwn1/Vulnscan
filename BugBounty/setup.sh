@@ -1,18 +1,19 @@
+# Directory Structure Setup & Installation Script
 #!/bin/bash
 
-echo "[*] Making BugBounty directory"
-mkdir ~/bugbounty
+# === Create Directory Structure ===
+mkdir -p bugbounty/{scripts,tools,output,}
 
-echo "[*] Making sub directories"
-mkdir ~/bugbounty/scripts
-mkdir ~/bugbounty/tools
-mkdir ~/bugbounty/recon
-
-echo "[*] Updating package lists..."
-sudo apt update
-
-echo "[*] Installing system packages..."
-sudo apt install -y amass httpx ffuf wget jadx python3-pip dos2unix git
+# === Install Required Tools ===
+echo "[*] Updating packages and installing dependencies..."
+sudo apt update && sudo apt install -y \
+amass \
+httpx \
+ffuf \
+wget \
+jadx \
+python3-pip \
+dos2unix
 
 echo "[*] Setting up virtual environment."
 python3 -m ~/bugbounty/tools/.venv
