@@ -1,24 +1,28 @@
 # Directory Structure Setup & Installation Script
 #!/bin/bash
 
-# === Create virtual environment ===
-echo "[*] Setting up virtual environment."
-python3 -m ~/bugbounty/tools/.venv
-source ~/bugbounty/tools/.venv/bin/activate
-
 # === Create Directory Structure ===
 mkdir -p bugbounty/{scripts,tools,output,}
+cd ~/bugbounty
+# === Create virtual environment ===
+echo "[*] Setting up virtual environment."
+python3 -m venv ~/bugbounty/tools/.venv
+source ~/bugbounty/tools/.venv/bin/activate
 
 # === Install Required Tools ===
 echo "[*] Updating packages and installing dependencies..."
 sudo apt update && sudo apt install -y \
 amass \
-httpx \
+golang \
 ffuf \
 wget \
 jadx \
 python3-pip \
 dos2unix
+
+echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
+source ~/.bashrc
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 echo "[*] Downloading scripts."
 wget -P ~/bugbounty https://raw.githubusercontent.com/raylbrwn1/Vulnscan/refs/heads/main/BugBounty/requirements
@@ -43,3 +47,7 @@ echo "[*] Installing Python requirements..."
 pip install -r ~/bugbounty/requirements
 
 echo "[✓] Environment setup complete."
+
+echo "Activating virtual environment '.venv'..."
+source ~/bugbounty/tools/.venv/bin/activate
+echo "'.venv' active!"
