@@ -1,27 +1,94 @@
-Bug bounty tools
-setup environment in the following way.
-BugBounty/
-├── setup.sh
-├── requirements.txt
-├── Scripts/
-│   ├── syfe_autopwn.sh
-│   ├── set_syfe_scope.py
+# Directory Structure
+bugbounty/
+├── scripts/
+│   ├── BugBountyAuto.sh
+│   ├── set_sitescope.py
+│   ├── functions.sh
+│   ├── site_recon.sh
+│   ├── fuffscan.sh
+│   ├── bug-checker.sh
+│   ├── apk_pull_and_decompile.sh
+│   └── generate_report.sh
 ├── tools/
-│   └── LinkFinder/
-├── Recon/
+│   └── (LinkFinder, httpx, etc.)
+├── output/
+│   └── (All recon outputs per target domain)
+├── requirements.txt
 └── README.md
 
-Place scripts in ~/BugBounty/Scripts/
-Create virtual environmnet and then activate it. The command prompt should look something like this: (bountyenv) yourname@host:~/BugBounty/tools$.
+# requirements.txt
+amass
+httpx
+ffuf
+jadx
+python3-pip
+dos2unix
 
-Use the setup.sh file.
-dos2unix setup.sh
-chmod +x ~/BugBounty/setup.sh
-./setup.sh
+# README.md (summary)
+## Bug Bounty Recon Automation
+This repository automates the recon and vulnerability discovery process for bug bounty hunting.
 
-Use link scanning repo.
-git clone https://github.com/GerbenJavado/LinkFinder.git ~/tools/LinkFinder
+### Setup
+```bash
+sudo apt update && sudo apt install -y amass httpx ffuf wget jadx python3-pip dos2unix
+cd bugbounty
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-Install Python requirements for LinkFinder
-pip3 install -r ~/tools/LinkFinder/requirements.txt
+### How to Use
+```bash
+cd scripts
+bash BugBountyAuto.sh
+```
+This will:
+1. Prompt you for the domain and scoped subdomains
+2. Run subdomain recon, http probing, JS scraping
+3. Run fuzzing (ffuf)
+4. Scan JS and APK for secrets
+5. Output all results to a timestamped recon folder
 
+---
+
+# generate_report.sh
+#!/bin/bash
+
+source "$(dirname "$0")/functions.sh"
+
+REPORT_FILE="$RECON_ROOT/report_summary.txt"
+echo "Bug Bounty Report Summary" > "$REPORT_FILE"
+echo "Domain: $DOMAIN" >> "$REPORT_FILE"
+echo "Date: $(date)" >> "$REPORT_FILE"
+echo -e "\n--- Live Hosts ---" >> "$REPORT_FILE"
+cat "$OUT_DIR/live_scoped.txt" >> "$REPORT_FILE"
+echo -e "\n--- JavaScript Links ---" >> "$REPORT_FILE"
+cat "$OUT_DIR/results/js_links.txt" >> "$REPORT_FILE"
+echo -e "\n--- APK Secrets ---" >> "$REPORT_FILE"
+cat "$OUT_DIR/results/apk_secrets.txt" >> "$REPORT_FILE"
+echo -e "\n--- APK URLs ---" >> "$REPORT_FILE"
+cat "$OUT_DIR/results/apk_urls.txt" >> "$REPORT_FILE"
+echo "[✓] Report generated at $REPORT_FILE"
+
+# Best Practices
+# - Enumerate all subdomains: amass, crt.sh, etc.
+# - Validate with httpx
+# - Crawl JS: linkfinder, secret detection
+# - Fuzz common paths and params with ffuf
+# - Pull and reverse APKs, find exposed keys
+# - Take notes, organize in Burp for manual testing
+
+# Common Vulns to Look For
+# - IDOR (Insecure Direct Object Reference)
+# - Auth bypass
+# - Broken access controls
+# - Open redirects (with impact)
+# - Misconfigured CORS
+# - Exposed secrets (in JS, APK, or responses)
+# - Unvalidated input (XSS, SSTI, etc.)
+# - Rate limit bypass and logic flaws
+
+# Reporting Tips
+# - Include full PoC (steps, payloads, screenshots)
+# - Confirm reproducibility on production (if required)
+# - Highlight impact clearly (data access, privilege escalation, etc.)
